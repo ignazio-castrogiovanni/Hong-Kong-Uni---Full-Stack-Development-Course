@@ -1,0 +1,28 @@
+{
+  "name": "conFusion",
+  "homepage": "https://github.com/ignazio-castrogiovanni/Hong-Kong-Uni---Full-Stack-Development-Course",
+  "authors": [
+    "ignazio-castrogiovanni <email@ignazio-castrogiovanni.com>"
+  ],
+  "description": "1.0.0",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "conFusion",
+    "Fusion",
+    "Restaurant"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.5.0",
+    "bootstrap": "~3.3.6"
+  }
+}
