@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head
          content must come *after* these tags -->
-    <title>Ristorante Con Fusion: Menu</title>
+    <title>Ristorante Con Fusion: Dish Rating</title>
         <!-- Bootstrap -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -26,31 +26,34 @@
 <body>
 
     <div class="container">
-        <div class="row row-content" ng-controller = "dishDetailController as dishDetailCtrl">
+
+        <div class="row row-content"
+              ng-controller="dishDetailController as detailCntrl"
+              ng-init="dish = detailCntrl.dish">
             <div class="col-xs-12">
-              <div class = "media">
-                <div class = "media-left">
-                  <a href = "#">
-                    <img class = "media-object img-thumbnail" ng-src = "{{dishDetailCtrl.dish.image}}">
-                  </a>
-                </div>
-                <div class = "media-body">
-                  <h2 class = "media-heading">{{dishDetailCtrl.dish.name}}
-                  <span class = "label label-danger">{{dishDetailCtrl.dish.label}}</span>
-                  <span class = "badge">{{dishDetailCtrl.dish.price | currency}}</span></h2>
-                  <p>{{dishDetailCtrl.dish.description}}</p>
-                </div>
+              <div class="media-left media-middle">
+                <a href="#">
+                  <img class="media-object img-thumbnail"
+                  ng-src={{dish.image}} alt="Uthappizza">
+                </a>
               </div>
+              <div class="media-body">
+                <h2 class="media-heading">{{dish.name}}
+                  <span class="label label-danger">{{dish.label}}</span>
+                  <span class="badge">{{dish.price | currency}}</span></h2>
+                  <p>{{dish.description}}</p>
+                </div>
             </div>
             <div class="col-xs-9 col-xs-offset-1">
-              <strong><big>Customer Comments &nbsp; &nbsp; &nbsp;</big></strong> <!--<label for = "sortText">--><small>Sort by:</small> <!--</label>--><input id = "sortText" type = "text" ng-model = "sortOrder"></input>
-              <blockquote ng-repeat = "comment in dishDetailCtrl.dish.comments | orderBy:sortOrder">
-                <p>{{comment.comment}}</p>
-                <footer>{{comment.author}}, {{comment.date | date}}</footer>
-              </blockquote>
+              <h4 class="media-heading">Customer Comments <span class="small"> Sort by:
+                <input type="text" ng-model="detailCntrl.sortBy" ng-change="detailCntrl.sortComments()"></span></h4>
             </div>
-            <div class="col-xs-2">
-
+            <div class="col-xs-9 col-xs-offset-1">
+              <blockquote class="media" ng-repeat="comment in dish.comments">
+                      <p>{{comment.rating}} Stars</p>
+                      <p>{{comment.comment}}</p>
+                      <footer>{{comment.author}}, {{comment.date | date:'mediumDate'}}</footer>
+              </blockquote>
             </div>
         </div>
 
@@ -61,7 +64,7 @@
 
         var app = angular.module('confusionApp',[]);
 
-        app.controller('dishDetailController', function() {
+        app.controller('dishDetailController', function($filter) {
 
             var dish={
                           name:'Uthapizza',
@@ -106,6 +109,21 @@
                     };
 
             this.dish = dish;
+
+            this.sortBy = '';
+            this.predicate ="-rating";
+
+            this.sortComments = function() {
+                var possibleOrders = ["author", "-author", "date", "-date", "rating", "-rating"];
+                var orderMatch = $filter('filter')(possibleOrders, this.sortBy,
+                        function(actual, expected) {
+                              return (actual.search("^"+expected) != -1);
+                        });
+                if (orderMatch.length == 1) {
+                    this.predicate = orderMatch[0];
+                }
+                this.dish.comments = $filter('orderBy') (dish.comments, this.predicate);
+            }
 
         });
 
