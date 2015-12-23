@@ -52,18 +52,17 @@
                       <p>{{comment.comment}}</p>
                       <footer>{{comment.author}}, {{comment.date | date:'mediumDate'}}</footer>
               </blockquote>
-              <blockquote class="media" ng-controller="DishCommentController" >
+            </div>
+            <div class="col-xs-9 col-xs-offset-1" ng-controller="DishCommentController">
+              <ul class="list-unstyled" ng-show="!commentsForm.$pristine && commentsForm.$valid">
+                <li>
+              <blockquote class="media"  >
                       <p>{{newComment.rating}} Stars</p>
                       <p>{{newComment.comment}}</p>
                       <footer>{{newComment.author}}, {{newComment.date | date:'mediumDate'}}</footer>
               </blockquote>
-            </div>
-        </div>
-        <!--
-Display the preview only if the user has entered valid information into the form, and the form is not in its pristine state.
-Try playing with ng-show
-
-      -->
+            </li>
+          </ul>
           <form class="form-horizontal" name="commentsForm" role="form" ng-submit="submitComment()" ng-controller="DishCommentController" novalidate>
                                         <!--      { 'has-error' : userForm.name.$invalid && !userForm.name.$pristine } -->
             <div class="form-group" ng-class="{ 'has-error' : commentsForm.name.$error.required && !commentsForm.name.$pristine}">
@@ -96,11 +95,21 @@ Try playing with ng-show
               </div>
             </div>
           </form>
+
+            </div>
+        </div>
+        <!--
+Display the preview only if the user has entered valid information into the form, and the form is not in its pristine state.
+Try playing with ng-show
+
+      -->
         </div>
     </div>
 
     <script src="../bower_components/angular/angular.min.js"></script>
     <script src="scripts/app.js"></script>
+    <script src="scripts/controllers.js"></script>
+    <script src="scripts/services.js"></script>
 </body>
 
 </html>
