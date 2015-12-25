@@ -67,8 +67,8 @@ angular.module('confusionApp')
     };
 }])
 
-.controller('DishDetailController', ['$scope', 'menuFactory', function($scope, menuFactory) {
-        var dish = menuFactory.getDish(3);
+.controller('DishDetailController', ['$scope', 'menuFactory', '$stateParams', function($scope, menuFactory, $stateParams) {
+        var dish = menuFactory.getDish(parseInt($stateParams.id, 10));
         $scope.dish = dish;
 }])
 
