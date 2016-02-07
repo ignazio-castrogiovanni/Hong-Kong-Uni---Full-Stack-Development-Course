@@ -163,7 +163,7 @@ angular.module('conFusion.controllers', [])
                   };
               }])
 
-              .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', $ionicPopover, function($scope, $stateParams, menuFactory, baseURL, $ionicPopover) {
+              .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicPopover', '$ionicModal', function($scope, $stateParams, menuFactory, favoriteFactory, baseURL, $ionicPopover, $ionicModal) {
 
                   $scope.baseURL = baseURL;
                   $scope.dish = {};
@@ -171,18 +171,49 @@ angular.module('conFusion.controllers', [])
                   $scope.message="Loading ...";
 
                   $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
-                scope: $scope}).then(function(popover) {
-                  $scope.popover = popover;
-                });
+                    scope: $scope
+                  }).then(function(popover) {
+                    $scope.popover = popover;
+                  });
+                  $scope.openPopover = function($event) {
+                    console.log(parseInt($stateParams.id,10));
+                    $scope.lastDishDetailId = parseInt($stateParams.id,10);
+                  $scope.popover.show($event);
+                  }
+                  $scope.closePopover = function() {
+                    $scope.popover.hide();
+                  };
 
-                $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
-  $scope.closePopover = function() {
-    $scope.popover.hide();
-  };
+                  $scope.addFavorite = function() {
+                    favoriteFactory.addToFavorites($scope.lastDishDetailId);
+                  }
 
-                  $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
+                  $scope.mycomment = {rating:5, comment:"Iggy", author:"Boom", date:""};
+                  $ionicModal.fromTemplateUrl('templates/dish-comment.html', {
+                    scope: $scope
+                  }).then(function(modal) {
+                    $scope.commentModal = modal;
+                  });
+
+                  $scope.openCommentModal = function() {
+                    $scope.commentModal.show();
+                  }
+
+                  $scope.closeCommentModal = function() {
+                    $scope.commentModal.hide();
+                  }
+
+                  $scope.addComment = function() {
+
+                    $scope.mycomment.date = new Date().toISOString();
+                    console.log($scope.mycomment);
+                    $scope.dish.comments.push($scope.mycomment);
+                    menuFactory.getDishes().update({id:$scope.lastDishDetailId},$scope.dish);
+
+                  }
+
+
+                $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
                   .$promise.then(
                                   function(response){
                                       $scope.dish = response;

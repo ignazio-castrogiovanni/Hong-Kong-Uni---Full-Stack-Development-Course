@@ -6,7 +6,7 @@
       "image": "images/uthapizza.png",
       "category": "mains",
       "label": "Hot",
-      "price": "4.99",
+      "price": 4.99,
       "description": "A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.",
       "comments": [
         {
@@ -38,6 +38,18 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": 5,
+          "comment": "Iggy",
+          "author": "Boom",
+          "date": "2016-02-07T10:06:17.903Z"
+        },
+        {
+          "rating": "3",
+          "comment": "Let's see if that works!",
+          "author": "Boom Vladj",
+          "date": "2016-02-07T10:23:17.171Z"
         }
       ]
     },
@@ -47,7 +59,7 @@
       "image": "images/zucchipakoda.png",
       "category": "appetizer",
       "label": "",
-      "price": "1.99",
+      "price": 1.99,
       "description": "Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce",
       "comments": [
         {
@@ -79,6 +91,12 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": 5,
+          "comment": "Iggy",
+          "author": "Boom",
+          "date": "2016-02-07T10:16:11.220Z"
         }
       ]
     },
@@ -88,7 +106,7 @@
       "image": "images/vadonut.png",
       "category": "appetizer",
       "label": "New",
-      "price": "1.99",
+      "price": 1.99,
       "description": "A quintessential ConFusion experience, is it a vada or is it a donut?",
       "comments": [
         {
@@ -120,6 +138,55 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": 5,
+          "comment": "Iggy",
+          "author": "Boom",
+          "date": "2016-02-07T10:07:04.894Z"
+        },
+        {
+          "rating": "3",
+          "comment": "I think I made it! =)",
+          "author": "Boom",
+          "date": "2016-02-07T10:18:32.440Z",
+          "username": "Iggy Oh Yeah"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
+        },
+        {
+          "rating": "4",
+          "comment": "I REALLY made it =D",
+          "author": "Iggy Boom Boom",
+          "date": "2016-02-07T10:19:49.804Z"
         }
       ]
     },
@@ -129,7 +196,7 @@
       "image": "images/elaicheesecake.png",
       "category": "dessert",
       "label": "",
-      "price": "2.99",
+      "price": 2.99,
       "description": "A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms",
       "comments": [
         {
@@ -161,6 +228,12 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": "1",
+          "comment": "Iggy",
+          "author": "Boom",
+          "date": "2016-02-07T10:17:33.779Z"
         }
       ]
     }
