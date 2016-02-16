@@ -78,8 +78,8 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
 
     $scope.promotion = promotion;
 }])
-      .controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', 'dishes',
-       function($scope, menuFactory, favoriteFactory, baseURL, dishes) {
+      .controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', 'dishes', '$ionicListDelegate', '$cordovaLocalNotification', '$cordovaToast',
+       function($scope, menuFactory, favoriteFactory, baseURL, dishes, $ionicListDelegate, $cordovaLocalNotification, $cordovaToast) {
 
                   $scope.baseURL = baseURL;
                   $scope.tab = 1;
@@ -91,7 +91,28 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
                     console.log("index is " + index);
                     favoriteFactory.addToFavorites(index);
                     $ionicListDelegate.closeOptionButtons();
-                  };
+                    $ionicPlatform.ready(function() {
+                      $cordovaLocalNotification.schedule({
+                        id:1,
+                        title: "Added Favorite",
+                        text: $scope.dishes[index].name
+                      })
+                        .then(function() {
+                          console.log('Added Favorite ' + $scope.dishes[index].name);
+                        },
+                        function() {
+                          console.log('Failed to add Notification ');
+                        });
+                        $cordovaToast
+                        .show('Added Favorite ' + $scope.dishes[index].name, 'long', 'center')
+                        .then(function(success) {
+                          //Success
+                        }, function(error){
+                          //Error
+                        });
+                      });
+                    }
+
 
                   $scope.dishes = dishes;
 
