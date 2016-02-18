@@ -1,6 +1,6 @@
 angular.module('conFusion.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage, $ionicPlatform, $cordovaCamera) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -8,6 +8,53 @@ angular.module('conFusion.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+
+  $ionicPlatform.ready(function() {
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 100,
+      targetHeight: 100,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false
+    };
+
+    $scope.takePicture = function() {
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        $scope.registration.imgSrc = "data:image/jpeg;base64," + imageData;
+      }, function(err) {
+        console.log(err);
+      });
+      $scope.registerform.show();    
+    };
+  });
+
+  $scope.registration = {};
+
+  $ionicModal.fromTemplateUrl('templates/register.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.registerform = modal;
+  });
+
+  $scope.closeRegister = function() {
+    $scope.registerform.hide();
+  };
+
+  $scope.register = function() {
+    $scope.registerform.show();
+  };
+
+  $scope.doRegister = function() {
+    console.log('Doing reservation', $scope.reservation);
+
+    $timeout(function() {
+      $scope.closeRegister();
+    }, 1000);
+  };
 
   // Form data for the login modal
   $scope.loginData = $localStorage.getObject('userinfo','{}');
