@@ -1,6 +1,6 @@
 angular.module('conFusion.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage, $ionicPlatform, $cordovaCamera) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $localStorage, $ionicPlatform, $cordovaCamera, $cordovaImagePicker) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -28,9 +28,22 @@ angular.module('conFusion.controllers', [])
       }, function(err) {
         console.log(err);
       });
-      $scope.registerform.show();    
+      $scope.registerform.show();
     };
   });
+  $scope.showGallery = function() {
+    var options = {
+      maximumImagesCount: 10,
+      width: 800,
+      height: 800,
+      quality: 80
+    };
+    $scope.registration.imgSrc = null;
+    $cordovaImagePicker.getPictures(options)
+    .then(function(results) {
+      $scope.registration.imgSrc = result[0];
+    }
+  }
 
   $scope.registration = {};
 
@@ -222,7 +235,8 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
                   };
               }])
 
-              .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicPopover', '$ionicModal', function($scope, $stateParams, menuFactory, favoriteFactory, baseURL, $ionicPopover, $ionicModal) {
+              .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicPopover', '$ionicModal', '$cordovaToast', '$cordovaLocalNotification',
+              function($scope, $stateParams, menuFactory, favoriteFactory, baseURL, $ionicPopover, $ionicModal, $cordovaToast, $cordovaLocalNotification) {
 
                   $scope.baseURL = baseURL;
                   $scope.dish = {};
@@ -245,6 +259,27 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
 
                   $scope.addFavorite = function() {
                     favoriteFactory.addToFavorites($scope.lastDishDetailId);
+
+                    // Toast
+                    $cordovaToast
+                    .show('Added Favourite ' + $scope.dish[$scope.lastDishDetailId].name)
+                    .then(function (success) {
+                      // success
+                    }, function (error) {
+                      // error
+                    });
+
+                    // Notification
+                    $cordovaLocalNotification.schedule({
+                    id: 1,
+                    title: "Added Favorite",
+                    text: scope.dish[$scope.lastDishDetailId].name
+                    }).then(function () {
+                      // Success
+                    },
+                    function () {
+                      // Error
+                    });
                   }
 
                   $scope.mycomment = {rating:5, comment:"Iggy", author:"Boom", date:""};
@@ -314,7 +349,8 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
                           }])
 
 
-                      .controller('FavoritesController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate', '$ionicPopup', '$ionicLoading', '$timeout', function ($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate, $ionicPopup, $ionicLoading, $timeout) {
+                      .controller('FavoritesController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate', '$ionicPopup', '$ionicLoading', '$timeout', '$cordovaVibration'
+                      function ($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate, $ionicPopup, $ionicLoading, $timeout, $cordovaVibration) {
 
                       $scope.baseURL = baseURL;
                       $scope.shouldShowDelete = false;
@@ -343,6 +379,7 @@ function ($scope, menuFactory, promotionFactory, corporateFactory, baseURL, dish
                       $scope.toggleDelete = function () {
                           $scope.shouldShowDelete = !$scope.shouldShowDelete;
                           console.log($scope.shouldShowDelete);
+                          $cordovaVibration.vibrate(200);
                       }
 
                       $scope.deleteFavorite = function (index) {
